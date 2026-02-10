@@ -17,7 +17,7 @@ async function getStats() {
     .not('rating', 'is', null)
 
   const avgRating = analyses && analyses.length > 0
-    ? (analyses.reduce((sum, a) => sum + (a.rating || 0), 0) / analyses.length).toFixed(1)
+    ? (analyses.reduce((sum: number, a: any) => sum + (a.rating || 0), 0) / analyses.length).toFixed(1)
     : '0.0'
 
   // 获取本周新增（简化版：最近7天）
