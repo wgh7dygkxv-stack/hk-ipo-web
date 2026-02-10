@@ -10,10 +10,10 @@ async function getAllIpos() {
     .select('*')
     .order('created_at', { ascending: false })
 
-  if (!ipos) return []
+  if (!ipos || ipos.length === 0) return []
 
   const iposWithAnalysis: IpoWithAnalysis[] = await Promise.all(
-    ipos.map(async (ipo) => {
+    ipos.map(async (ipo: any) => {
       const { data: analysis } = await supabase
         .from('ipo_analysis')
         .select('*')

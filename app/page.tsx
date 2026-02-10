@@ -43,11 +43,11 @@ async function getLatestIpos() {
     .order('created_at', { ascending: false })
     .limit(3)
 
-  if (!ipos) return []
+  if (!ipos || ipos.length === 0) return []
 
   // 为每个 IPO 获取最新的分析
   const iposWithAnalysis: IpoWithAnalysis[] = await Promise.all(
-    ipos.map(async (ipo) => {
+    ipos.map(async (ipo: any) => {
       const { data: analysis } = await supabase
         .from('ipo_analysis')
         .select('*')
