@@ -37,7 +37,7 @@ async function getIpoDetail(id: string) {
 
   return {
     ...(ipo as IpoBasic),
-    analysis: (analysis as IpoAnalysis) || undefined,
+    analysis: analysis ? (analysis as IpoAnalysis) : undefined,
   }
 }
 
