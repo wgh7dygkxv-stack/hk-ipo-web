@@ -14,29 +14,30 @@ import {
 import { supabase } from '@/lib/supabase'
 import { RatingBadge } from '@/components/RatingBadge'
 import { formatDate, formatPriceRange } from '@/lib/utils'
+import type { IpoBasic, IpoAnalysis } from '@/lib/types'
 
 async function getIpoDetail(id: string) {
   // 获取 IPO 基础信息
-  const { data: ipo } = await supabase
+  const { data: ipo, error: ipoError } = await supabase
     .from('ipo_basic')
     .select('*')
     .eq('id', id)
     .single()
 
-  if (!ipo) return null
+  if (ipoError || !ipo) return null
 
   // 获取 AI 分析
   const { data: analysis } = await supabase
     .from('ipo_analysis')
     .select('*')
-    .eq('stock_cd', ipo.stock_cd)
+    .eq('stock_cd', (ipo as IpoBasic).stock_cd)
     .order('created_at', { ascending: false })
     .limit(1)
     .single()
 
   return {
-    ...ipo,
-    analysis: analysis || undefined,
+    ...(ipo as IpoBasic),
+    analysis: (analysis as IpoAnalysis) || undefined,
   }
 }
 
