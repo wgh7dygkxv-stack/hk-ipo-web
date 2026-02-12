@@ -8,8 +8,17 @@ export function cn(...inputs: ClassValue[]) {
 // 格式化日期
 export function formatDate(dateString: string | null): string {
   if (!dateString) return '未知'
+  
+  // 兼容集思录格式 "02-10(周二)"
+  if (dateString.includes('(')) {
+    return dateString
+  }
+
   try {
     const date = new Date(dateString)
+    // 检查是否是有效日期
+    if (isNaN(date.getTime())) return dateString
+    
     return date.toLocaleDateString('zh-CN', {
       year: 'numeric',
       month: '2-digit',
