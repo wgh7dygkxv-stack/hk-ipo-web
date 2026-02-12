@@ -146,10 +146,10 @@ export default async function IpoDetailPage({
 
                 {/* 完整分析 */}
                 <div className="p-4 bg-gray-50 rounded-xl">
-                  {ipo.analysis.raw_ai_text?.includes('IMAGE_DATA_URI:') && (
-                    <div className="mb-6 overflow-hidden rounded-xl border border-gray-200 shadow-md">
+                  {ipo.analysis.raw_ai_text?.includes('[IMAGE_START]') && (
+                    <div className="mb-6 overflow-hidden rounded-xl border border-gray-200 shadow-lg">
                       <img 
-                        src={ipo.analysis.raw_ai_text.split('\n')[0].replace('IMAGE_DATA_URI:', '')} 
+                        src={ipo.analysis.raw_ai_text.split('[IMAGE_END]')[0].replace('[IMAGE_START]', '')} 
                         alt="Visual Analysis"
                         className="w-full h-auto"
                       />
@@ -159,7 +159,7 @@ export default async function IpoDetailPage({
                     完整分析报告
                   </h3>
                   <pre className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
-                    {ipo.analysis.raw_ai_text?.replace(/IMAGE_DATA_URI:.*\n\n/, '')}
+                    {ipo.analysis.raw_ai_text?.replace(/\[IMAGE_START\].*\[IMAGE_END\]\n\n/, '')}
                   </pre>
                   {ipo.analysis.model && (
                     <p className="text-xs text-gray-500 mt-4">
